@@ -17,7 +17,7 @@ docs pass did not execute them against a live host.
 ## 1. Desktop credentials
 
 ```bash
-git clone <this repo> && cd <this repo>
+git clone https://github.com/scimbe/CADS-kali-desktop.git && cd CADS-kali-desktop
 cp .env.template .env && $EDITOR .env      # set KASM_USER, KASM_PASSWORD
 chmod 600 .env
 ```
@@ -42,13 +42,26 @@ chmod 600 .env.tunnel
 ```
 
 See [Environment variables](../reference/environment-variables.md#env-tunnel) for what each field
-means.
+means. Note `CT_AGENT_ORIGIN`: whatever you put here is silently overridden to `kali-gate:3000`
+by `compose.gate.yml` when you bring up the full stack (step 5 below) — see
+[Applying or reverting the gate/revoke layer](#applying-or-reverting-the-gaterevoke-layer). Fine
+to leave at its template default; just don't be surprised it isn't the value actually in effect.
 
 ## 4. Set who is allowed in
 
 In `compose.gate.yml`, set `KALI_ALLOWED_EMAIL` to the **same address** you put on the tunnel's
 access list in the portal. This is not treated as a secret in this repo (it's your own login
 identity) — it stays in the compose file, in plain sight, rather than in an env file.
+
+<span class="prov m">measured</span> **This is the one step `setup.sh check` cannot catch for
+you if you skip it.** The tracked `compose.gate.yml` ships with a real, non-placeholder address
+already filled in (the upstream repo owner's own) — `check`'s validation is `[ -n
+"$KALI_ALLOWED_EMAIL" ]`, non-empty only, confirmed by reading `setup.sh` directly. A value that
+is merely non-empty always passes, whether or not it's *your* address. If you deploy a fork of
+this repo without editing `KALI_ALLOWED_EMAIL` here, `check` and `verify` both report
+green while the gate silently keeps admitting the original owner's identity — and yours, on the
+list you configured in the portal, never gets in. There is no automated guard against this;
+double-check this line by eye before `up`.
 
 ## 5. Check, then bring it up
 

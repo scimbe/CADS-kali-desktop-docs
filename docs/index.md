@@ -58,7 +58,7 @@ identity (`KALI_ALLOWED_EMAIL`) — this is not designed as a multi-tenant or sh
 | Claim | Status |
 |---|---|
 | Desktop reachable only via the tunnel agent, no published host port | <span class="prov d">documented in repo</span> — `compose.kali.yml` and `compose.tunnel.yml` publish no `ports:` |
-| Unauthenticated request redirected to Keycloak; deep paths (`/websockify`) too | <span class="prov d">documented in repo</span> — README claims this was measured 2026-08-17; not re-run for this doc pass |
+| Unauthenticated request redirected to Keycloak; deep paths (`/websockify`) too | <span class="prov m">measured</span> — `/websockify`, `/config/`, and an arbitrary deep path all 302 to the gate with `return=` preserving the original path, confirmed live 2026-08-28 |
 | Desktop's own password alone is not sufficient to get in | <span class="prov d">documented in repo</span> — same measurement |
 | A non-allow-listed but signed-in account is refused | <span class="prov d">documented in repo</span> — README describes a real second-account test |
 | In-desktop logout actually ends access (not just the X session) | <span class="prov d">documented in repo</span> — `revoke/revoke.py` + `hooks/svc-de-finish` implement this; README describes the measurement |
