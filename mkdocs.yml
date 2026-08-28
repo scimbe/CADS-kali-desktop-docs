@@ -1,0 +1,88 @@
+site_name: CADS Kali Desktop
+site_description: A gated, browser-reachable Kali Linux desktop behind a CADS-Tunnel — what it is, how it's gated, and how to run it.
+site_url: https://scimbe.github.io/CADS-kali-desktop-docs/
+repo_url: https://github.com/scimbe/CADS-kali-desktop
+repo_name: scimbe/CADS-kali-desktop
+edit_uri: https://github.com/scimbe/CADS-kali-desktop-docs/edit/main/docs/
+
+# The docs follow Diátaxis: four kinds of text answer four different questions,
+# and mixing them is the most common reason documentation rots.
+#
+#   Start         orientation      what this is, what it's for
+#   Explanation   "why is it so"   the gate/access model, why it's structured this way
+#   How-to        "help me do X"   task-oriented, assumes competence
+#   Reference     "tell me what"   look-up, dry, complete
+#
+# Every claim is marked measured (run and observed), documented-in-repo (stated by the source
+# files but not independently re-run while writing these docs), or not verified here. Nothing is
+# presented as confirmed-working that wasn't actually observed.
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - search.highlight
+    - search.suggest
+    - toc.follow
+  icon:
+    logo: material/laptop
+
+extra_css:
+  - stylesheets/kali-desktop.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search:
+      lang: en
+
+nav:
+  - Start: index.md
+  - Explanation:
+      - explanation/index.md
+      - The gate and access-control model: explanation/the-gate-and-access-model.md
+  - How-to:
+      - how-to/index.md
+      - Deploy and redeploy: how-to/deploy-and-redeploy.md
+  - Reference:
+      - reference/index.md
+      - Environment variables: reference/environment-variables.md
+      - Container and port layout: reference/container-and-port-layout.md

@@ -1,0 +1,53 @@
+/* Docs theme for CADS Kali Desktop.
+ *
+ * Same family palette as the other CADS docs sites — the deep CADS blue — so docs and project
+ * read as one thing. Accent shifted slightly warmer than the marketplace docs to stay visually
+ * distinct at a glance.
+ */
+
+:root {
+  --cads-blue: #204c86;
+  --cads-blue-dark: #12305a;
+  --cads-light: #b5c4d8;
+  --cads-mid: #8fa6c4;
+  --cads-accent: #a6432c;
+
+  --md-primary-fg-color: var(--cads-blue);
+  --md-primary-fg-color--light: var(--cads-mid);
+  --md-primary-fg-color--dark: var(--cads-blue-dark);
+  --md-accent-fg-color: var(--cads-accent);
+  --md-typeset-a-color: var(--cads-blue);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: var(--cads-blue-dark);
+  --md-accent-fg-color: var(--cads-accent);
+  --md-typeset-a-color: var(--cads-light);
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--cads-blue);
+  color: #fff;
+}
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background-color: var(--cads-blue-dark);
+}
+.md-typeset table:not([class]) { display: block; overflow-x: auto; }
+.md-typeset code { font-size: 0.85em; }
+
+/* Provenance marks: this site distinguishes a claim measured against a running system from one
+   that is only documented in the repository's own comments/README, and from something explicitly
+   not verified while writing these docs. Same idea as the marketplace docs, same visual language. */
+.prov {
+  display: inline-block; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.1rem 0.5rem; border-radius: 999px; vertical-align: middle;
+}
+.prov.m { color: #2c6a41; background: rgba(63,143,91,0.16); }   /* measured */
+.prov.d { color: #1c3f6f; background: rgba(32,76,134,0.14); }   /* documented in repo */
+.prov.n { color: #8a690b; background: rgba(176,135,15,0.16); }  /* not verified here */
+[data-md-color-scheme="slate"] .prov.m { color: #7fd39a; }
+[data-md-color-scheme="slate"] .prov.d { color: var(--cads-light); }
+[data-md-color-scheme="slate"] .prov.n { color: #e0b94a; }
+
+.md-header__topic .md-ellipsis { font-weight: 700; letter-spacing: 0.02em; }
