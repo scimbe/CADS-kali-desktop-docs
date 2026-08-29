@@ -59,7 +59,7 @@ identity (`KALI_ALLOWED_EMAIL`) — this is not designed as a multi-tenant or sh
 |---|---|
 | Desktop reachable only via the tunnel agent, no published host port | <span class="prov d">documented in repo</span> — `compose.kali.yml` and `compose.tunnel.yml` publish no `ports:` |
 | Unauthenticated request redirected to Keycloak; deep paths (`/websockify`) too | <span class="prov m">measured</span> — `/websockify`, `/config/`, and an arbitrary deep path all 302 to the gate with `return=` preserving the original path, confirmed live 2026-08-28 |
-| Desktop's own password alone is not sufficient to get in | <span class="prov d">documented in repo</span> — same measurement |
+| Desktop's own password alone is not sufficient to get in | <span class="prov m">measured</span> — a request carrying `Authorization: Basic` still gets the `302` gate redirect, not a `200`; re-confirmed live 2026-08-29 |
 | A non-allow-listed but signed-in account is refused | <span class="prov d">documented in repo</span> — README describes a real second-account test |
 | In-desktop logout actually ends access (not just the X session) | <span class="prov d">documented in repo</span> — `revoke/revoke.py` + `hooks/svc-de-finish` implement this; README describes the measurement |
 | The Keycloak-gated stack (not the edge-only fallback) is the one currently deployed | <span class="prov m">measured</span> — live `302` to the Keycloak gate, and `compose.gate.yml`/`compose.revoke.yml` confirmed in the running deployment's config files; see [Which mode is actually live](explanation/the-gate-and-access-model.md#which-mode-is-actually-live) |
