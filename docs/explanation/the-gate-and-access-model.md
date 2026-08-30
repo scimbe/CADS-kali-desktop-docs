@@ -82,6 +82,7 @@ practice (per its own comments, reproduced here since they explain real, previou
 
 The repository documents **two** distinct deployment shapes, and they are not the same:
 
+<div class="measured" markdown>
 <span class="prov m">measured</span> **The full, Keycloak-gated stack is what's live.** `compose.gate.yml`'s
 own header comment reads *"Keycloak gate in front of the Kali desktop — **PREPARED, NOT
 DEPLOYED** (awaiting operator go-ahead)"* — that line is a stale comment nobody updated after the
@@ -91,11 +92,15 @@ the gated stack is what's actually running:
 - `docker inspect` on the running `kali-gate` container shows its Compose project's config-files
   list includes `compose.gate.yml` and `compose.revoke.yml` alongside `compose.tunnel.yml` — the
   gate and revoke layers are part of the deployed stack, not merely present in the repo.
-- `curl -sI https://kali.bunsenbrenner.org/` returns a real `302` to
-  `bunsenbrenner.org/gate/start?host=kali.bunsenbrenner.org` — the actual Keycloak login redirect,
-  not the fallback path's bare `401 WWW-Authenticate: Basic`. This also matches the standing
+- `curl -sI https://kali.bunsenbrenner.org/` returns a real `302` with `Via: 1.1 Caddy` and
+  `Cache-Control: no-store`, redirecting to
+  `bunsenbrenner.org/gate/start?host=kali.bunsenbrenner.org&return=%2F` — the actual Keycloak
+  login redirect, not the fallback path's bare `401 WWW-Authenticate: Basic`. Following that
+  redirect once more lands on `auth.bunsenbrenner.org/realms/ct-demo/protocol/openid-connect/auth`
+  (`client_id=ct-portal`), i.e. the real Keycloak realm. This also matches the standing
   stability-watch's health-check baseline, which has consistently observed `kali` returning a
-  302-unauthenticated response.
+  302-unauthenticated response. Re-confirmed live 2026-08-29.
+</div>
 
 So: the top-level `README.md`'s *"Built and verified live on 2026-08-17"* claim is the accurate
 one for the gate/revoke layer. `compose.gate.yml`'s "PREPARED, NOT DEPLOYED" header should be
